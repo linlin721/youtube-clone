@@ -1,20 +1,23 @@
-// include all Google cloud service file interactions
-// include all the local file interactions
+// Google cloud service file interactions and local file interactions
+
+/**
+ * user uploads a video to Google Cloud Storage
+The video processing service will be notified of the upload via Cloud Pub/Sub -> download the video from Google Cloud Storage -> process the video
+finally upload the processed video to Google Cloud Storage
+ */
 import { Storage } from "@google-cloud/storage";
 import fs from 'fs';
 import ffmpeg from 'fluent-ffmpeg';
 
 const storage = new Storage();
 
-const rawVideoBucketName = "dw-yt-raw-videos";
-const processedVideoBucketName = "dw-yt-processed-videos";
+const rawVideoBucketName = "yl-yt-raw-videos";
+const processedVideoBucketName = "yl-yt-processed-videos";
 
 const localRawVideoPath = "./raw-videos";
 const localProcessedVideoPath = "./processed-videos";
 
-/**
- * Creates the local directories for raw and processed videos.
- */
+// Creates the local directories for raw and processed videos.
 export function setupDirectories() {
     ensureDirectoryExistence(localRawVideoPath);
     ensureDirectoryExistence(localProcessedVideoPath);
@@ -121,7 +124,7 @@ function deleteFile(filePath: string): Promise<void> {
 }
 
 /**
- * Ensure a directory exists, creating it if necessary.
+ * make sure the directory exists
  * @param {string} dirPath - The directory path to check.
  */
 function ensureDirectoryExistence(dirPath: string) {
